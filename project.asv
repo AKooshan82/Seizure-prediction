@@ -1,0 +1,29 @@
+clc , close all , clear all
+%%
+load('noisy_data1.mat')
+load('noisy_data2.mat')
+%%
+
+%%
+function highpass_filtered_signal = highpass_filter(data, fs, fc)
+    % highpass_filter applies a high-pass Butterworth filter to the input data
+    %
+    % Inputs:
+    %   data - The input signal to be filtered (vector or matrix)
+    %   fs - Sampling frequency of the input data (Hz)
+    %   fc - Cutoff frequency for the high-pass filter (Hz)
+    %
+    % Output:
+    %   filtered_signal - The filtered output signal
+
+    % Designing the high-pass Butterworth filter
+    [n, Wn] = buttord(fc/(fs/2), (fc-0.5)/(fs/2), 3, 40); % Order and normalized cutoff frequency
+    [b, a] = butter(n, Wn, 'high'); % Butterworth filter coefficients
+
+    % Apply the filter to the data
+    filtered_signal = filter(b, a, data);
+
+    % Display the filter response (optional)
+    % fvtool(b, a);
+
+end
